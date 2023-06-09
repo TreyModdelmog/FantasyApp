@@ -9,12 +9,14 @@
     let ownerPick;
     let ownerName;
     function getOwnerInfo() {
+        if (prompt("password: ") !== import.meta.env.VITE_PASS) return;
         ownerName = prompt("Enter Owner Name: ");
         ownerPick = owners.length + 1;
         goto(`/addOwner/${ownerPick}-${ownerName}`);
     }
 
     function deleteOwner() {
+        if (prompt("password: ") !== import.meta.env.VITE_PASS) return;
         ownerPick = parseInt(prompt("Enter Owner Pick: ") || "-1");
         goto(`/deleteOwner/${ownerPick}`);
     }

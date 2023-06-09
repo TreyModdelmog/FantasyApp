@@ -1,6 +1,7 @@
 import Database from "better-sqlite3";
 import type { Index, Owner, Player } from "./types";
-import { DB_PATH } from "$env/static/private";
+import { DB_PATH, LOG_FILE } from "$env/static/private";
+import fs from "node:fs";
 
 const db = new Database(DB_PATH);
 
@@ -64,7 +65,11 @@ export function draftPlayer(ownerId: number, playerId: number) {
     const row = statement.run({ ownerId, playerId });
     const sql2 = `update player set player_drafted = 'true' where player_ranking = $playerId`;
     const statement2 = db.prepare(sql2);
-    const row2 = statement2.run({ playerId });
+    statement2.run({ playerId });
+    const owner: Owner = getOwnerById(ownerId);
+    const player: Player = getPlayersByIdList([{ player_ranking: playerId }])[0];
+    console.log(player);
+    fs.appendFile(LOG_FILE, `${owner.owner_name} drafted ${player.player_position} ${player.player_name}`, (error) => console.log(error));
     return row;
 }
 
