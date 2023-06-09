@@ -1,4 +1,6 @@
 <script>
+    // @ts-nocheck
+
     import { goto } from "$app/navigation";
 
     /**
@@ -19,6 +21,11 @@
         if (prompt("password: ") !== import.meta.env.VITE_PASS) return;
         ownerPick = parseInt(prompt("Enter Owner Pick: ") || "-1");
         goto(`/deleteOwner/${ownerPick}`);
+    }
+
+    $: resetLink = "";
+    function reset() {
+        if (prompt("password: ") === import.meta.env.VITE_PASS) resetLink = "/reset";
     }
 </script>
 
@@ -46,7 +53,7 @@
                     <a class="navbar-item has-text-white has-background-dark" on:click={() => getOwnerInfo()} href="/">Add Owner</a>
                     <a class="navbar-item has-text-white has-background-dark" on:click={() => deleteOwner()} href="/">Delete Owner</a>
                     <hr class="navbar-divider" />
-                    <a class="navbar-item has-text-white has-background-dark" href="/reset">Reset</a>
+                    <a class="navbar-item has-text-white has-background-dark" on:click={() => reset()} href={resetLink}>Reset</a>
                 </div>
             </div>
         </div>
