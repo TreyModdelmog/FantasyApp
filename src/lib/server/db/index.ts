@@ -68,7 +68,7 @@ export function draftPlayer(ownerId: number, playerId: number) {
     statement2.run({ playerId });
     const owner: Owner = getOwnerById(ownerId);
     const player: Player = getPlayersByIdList([{ player_ranking: playerId }])[0];
-    fs.appendFile(LOG_FILE, `${owner.owner_name} drafted ${player.player_position} ${player.player_name}`, (error) => {
+    fs.appendFile(LOG_FILE, `${owner.owner_name} drafted ${player.player_position} ${player.player_name}\n`, (error) => {
         if (error) console.log(error);
     });
     return row;
